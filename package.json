@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.0.10",
     "akar-icons": "^1.9.22",
     "dateformat": "^5.0.3",
+    "match-sorter": "^6.3.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-highlight-words": "^0.18.0",

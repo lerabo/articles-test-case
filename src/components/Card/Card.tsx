@@ -4,6 +4,7 @@ import CartItem from 'components/Card/ui/CartItem';
 import Filter from 'components/Card/ui/Filter';
 import Result from 'components/Card/ui/Result';
 import { useMemo } from 'react';
+import { matchSorter } from 'match-sorter';
 
 export interface Article {
 	id: number;
@@ -35,14 +36,11 @@ const Card = () => {
 		setFilter(filter);
 	};
 
-	const filteredArticles = useMemo(
+	const filtered = useMemo(
 		() =>
-			articles.filter((item: Article) => {
-				if (filter) {
-					return item.title.includes(filter) || item.summary.includes(filter);
-				} else {
-					return item;
-				}
+			matchSorter(articles, filter ? filter : '', {
+				keys: ['title', 'summary'],
+				threshold: matchSorter.rankings.CONTAINS,
 			}),
 		[articles, filter],
 	);
@@ -50,9 +48,9 @@ const Card = () => {
 	return (
 		<>
 			<Filter onChange={filterHandler} />
-			<Result results={filteredArticles.length} />
+			<Result results={filtered.length} />
 			<CardContainer>
-				{filteredArticles?.map((article: Article) => (
+				{filtered.map((article: Article) => (
 					<CartItem filter={filter} article={article} key={article.id} />
 				))}
 			</CardContainer>
